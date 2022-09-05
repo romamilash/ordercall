@@ -22,20 +22,17 @@ window.onload = () => {
     });
 };
 
-function showModalForm()
-{
+function showModalForm() {
     let form = document.getElementById('orderCallForm');
     form.style.display = "block";
 }
 
-function closeModalForm()
-{
+function closeModalForm() {
     let form = document.getElementById('orderCallForm');
     form.style.display = "none";
 }
 
-function showResultMessage(isSuccess = true)
-{
+function showResultMessage(isSuccess = true) {
     let modal = document.getElementById('resultModal');
 
     modal.style.display = "block";
@@ -49,23 +46,60 @@ function showResultMessage(isSuccess = true)
     setTimeout(() => modal.style.display = "none", 2000);
 }
 
-function sendForm()
-{
-    let form = document.querySelector('#orderCallForm form');
-    let data = new FormData(form);
-    let req = new XMLHttpRequest();
+function sendForm() {
+    if (validateForm()) {
+        let form = document.querySelector('#orderCallForm form');
+        let data = new FormData(form);
+        let req = new XMLHttpRequest();
 
-    req.open('POST', '/shop/send/', false);
+        req.open('POST', '/shop/send/', false);
 
-    req.send(data);
+        req.send(data);
 
-    closeModalForm();
+        closeModalForm();
 
-    console.log(req);
+        if (req.status === 200 && req.responseText !== 'error') {
+            showResultMessage(true);
+        } else {
+            showResultMessage(false);
+        }
+    }
+}
 
-    if (req.status === 200 && req.responseText !== 'error') {
-        showResultMessage(true);
+function validateForm() {
+    const inputs = [...document.querySelectorAll('.order-call-form__fields input')];
+    let error;
+
+    inputs.forEach((e) => {
+        if (e.id) {
+            let name = document.querySelector(`label[for="${e.id}"]`).innerHTML;
+
+            if (e.value === '') {
+                error = `Поле «${name}» должно быть заполнено.`;
+            }
+
+            if (e.type === 'email') {
+                let isValid = String(e.value)
+                    .toLowerCase()
+                    .match(
+                        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+                    );
+                if (!isValid) {
+                    error = `Поле «${name}» имеет недопустимый формат.`;
+                }
+            }
+        }
+    });
+
+    if (error) {
+        let errorField = document.querySelector('.order-call-form__error');
+        errorField.innerHTML = error;
+        errorField.style.marginBottom = '20px';
+        return false;
     } else {
-        showResultMessage(false);
+        let errorField = document.querySelector('.order-call-form__error');
+        errorField.innerHTML = '';
+        errorField.style.marginBottom = '0';
+        return true;
     }
 }

@@ -20,6 +20,11 @@
 git clone https://github.com/romamilash/ordercall.git
 ~~~
 
+Добавить вызов хелпера
+~~~html
+{shopOrdercallViewHelper::display()}
+~~~
+
 ОБРАТНАЯ СВЯЗЬ
 --------------
 По всем вопросам можно писать мне на почту roma@milash.info :blush:
