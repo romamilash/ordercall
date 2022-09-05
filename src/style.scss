@@ -135,6 +135,11 @@ $blue: #0075ff;
         }
     }
 
+    &__error {
+        color: red;
+        margin: 0;
+    }
+
     footer {
         button {
             background-color: $blue;
@@ -151,4 +156,19 @@ $blue: #0075ff;
 
 .result-modal {
     padding: 40px 20px;
+}
+
+.wa-captcha {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 300px;
+
+    strong {
+        display: none;
+    }
+
+    p:last-child {
+        width: 100%;
+        text-align: left;
+    }
 }
