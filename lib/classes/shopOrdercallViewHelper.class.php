@@ -60,7 +60,7 @@ final class shopOrdercallViewHelper
                     <span>17</span>
                 </div>
                 <label for="comment">Комментарий</label>
-                <textarea name="comment" id="comment" cols="30" rows="5"></textarea>
+                <textarea name="comment" id="comment" cols="30" rows="3"></textarea>
                 $captcha
             </div>
         </section>
